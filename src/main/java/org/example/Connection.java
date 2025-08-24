@@ -7,28 +7,36 @@ import java.sql.Statement;
 
 
 public class Connection {
-    private final String url;
+    private final String url = "jdbc:postgresql://localhost:5432/postgres";
     private final String user;
     private final String password;
 
-    public Connection(String url, String user, String password) {
-        this.url = url;
+    public Connection(String user, String password) {
         this.user = user;
         this.password = password;
     }
 
     public java.sql.Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
+        try {
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка подключения" + e.getMessage());
+        }
     }
 
-    public Statement createStatement() throws SQLException {
-        return getConnection().createStatement();
+    public Statement createStatement() {
+        try {
+            return getConnection().createStatement();
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка запроса" + e.getMessage());
+        }
     }
 
-    public PreparedStatement createPreparedStatement() throws SQLException {
-        String s = "" ;
-        return getConnection().prepareStatement(s);
+    public PreparedStatement prepareStatement(String request) {
+        try {
+            return getConnection().prepareStatement(request);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка запроса" + e.getMessage());
+        }
     }
-
-
 }

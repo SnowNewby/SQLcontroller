@@ -11,69 +11,84 @@ import java.util.HashMap;
 public class Main {
 
     public static void main(String[] args) {
-        Connection auth = new Connection("jdbc:postgresql://localhost:5432/postgres",
-                "postgres", "1");
+        //Устанавливаю соединение-------------------------|
+        Connection auth = new Connection("postgres", "1");
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-
+        //Загружаю таблицу сотрудников--------------------|
         HashMap<Integer, Double> salary = new HashMap<>();
-
         try (Statement stmt = auth.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM employees_salary")) {
 
-
             while (rs.next()) {
-               salary.put(rs.getInt("employee_id"), rs.getDouble("salary"));
+                salary.put(rs.getInt("employee_id"), rs.getDouble("salary"));
             }
+            System.out.println("Успешно загружена зарплатная таблица");
 
         } catch (SQLException e) {
             System.err.println("Ошибка подключения к зарплатной таблице. Ошибка: " + e.getMessage());
         }
 
-        HashMap<Integer, String> employees = new HashMap<>();
 
+        //Загружаю зарплатную таблицу-------------------------|
+        HashMap<Integer, String> employees = new HashMap<>();
         try (Statement stmt = auth.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM employees")) {
 
             while (rs.next()) {
                 employees.put(rs.getInt("employee_id"), rs.getString("title"));
             }
-            System.out.println("Должности: " + employees);
-            System.out.println("Зарплата:" + salary);
+            System.out.println("Успешно загружена таблица сотрудников");
 
         } catch (SQLException e) {
             System.err.println("Ошибка подключения к таблице сотрудников. Ошибка: " + e.getMessage());
         }
+        //Пробный вывод*
+        System.out.println("Должности: " + employees);
+        System.out.println("Зарплата:" + salary);
 
-        //Индексирую зарплату на 30% - торговым представителям
-            for (int id = 1; id <= employees.size(); id++) {
-                if (salary.containsKey(id) && employees.containsKey(id)) {
-                    String title = employees.get(id);
-                    if ("Sales Representative".equalsIgnoreCase(title)) {
-                        Double value = salary.get(id);
-                        value = value + (value * 30 / 100);
-                        salary.replace(id, value);
-                    } else
-                    if ("Vice President, Sales".equalsIgnoreCase(title)) {
-                        Double value = salary.get(id);
-                        value = value + (value * 95 / 100);
-                        salary.replace(id, value);
-                    } else
-                    if ("Sales Manager".equalsIgnoreCase(title)) {
-                        Double value = salary.get(id);
-                        value = value + (value * 41 / 100);
-                        salary.replace(id, value);
-                    } else
-                    if ("Inside Sales Coordinator".equalsIgnoreCase(title)) {
-                        Double value = salary.get(id);
-                        value = value + (value * 53.4  / 100);
-                        salary.replace(id, value);
-                    }
+        //Индексирую зарплату в цикле-----------------------|
+        for (int id = 1; id <= employees.size(); id++) {
+            if (salary.containsKey(id) && employees.containsKey(id)) {
+                String title = employees.get(id);
+                if ("Sales Representative".equalsIgnoreCase(title)) {
+                    Double value = salary.get(id);
+                    value = value + (value * 2 / 100);
+                    salary.replace(id, value);
+                } else if ("Vice President, Sales".equalsIgnoreCase(title)) {
+                    Double value = salary.get(id);
+                    value = value + (value * 10 / 100);
+                    salary.replace(id, value);
+                } else if ("Sales Manager".equalsIgnoreCase(title)) {
+                    Double value = salary.get(id);
+                    value = value + (value * 5 / 100);
+                    salary.replace(id, value);
+                } else if ("Inside Sales Coordinator".equalsIgnoreCase(title)) {
+                    Double value = salary.get(id);
+                    value = value + (value * 5 / 100);
+                    salary.replace(id, value);
                 }
             }
-
-
+        }
         System.out.println("Индексация:" + salary);
+
+
+        //
+        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        String update = "UPDATE employees_salary SET salary = ? WHERE ID = ?";
+
+        PreparedStatement pstmt = auth.prepareStatement(update);
+        try {
+            pstmt.addBatch(update);
+            Double value = salary.get(1);
+            pstmt.setDouble(value);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
+
+
 }

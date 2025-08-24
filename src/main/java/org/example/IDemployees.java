@@ -1,5 +1,9 @@
 package org.example;
 
+/*Метод для ArrayList, который не понадобился
+так как перешел на HashMap.
+ */
+
 public class IDemployees {
     final private Integer ID;
     final private Float Salary;
