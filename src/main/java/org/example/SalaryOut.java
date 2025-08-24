@@ -18,7 +18,10 @@ public class SalaryOut {
         this.employees = employees;
     }
 
-
+    /**
+     * HashMap employees
+     * indexation "salary" by "id_employees" in SQL
+     */
     public String RequestToTable() {
 
         //Индексирую зарплату по должностям-----------------------|
