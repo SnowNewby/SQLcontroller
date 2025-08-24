@@ -1,10 +1,5 @@
 package org.example;
 
-import java.io.BufferedReader;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import java.sql.*;
 import java.util.HashMap;
 
@@ -12,14 +7,14 @@ import java.util.HashMap;
 public class Main {
 
     public static void main(String[] args) {
-        //Устанавливаю соединение-------------------------|
-        Connection auth = new Connection("postgres", "1");
 
-        //Загружаю таблицу сотрудников--------------------|
+        //Загружаю зарплатную таблицу--------------------|
         HashMap<Integer, Double> salary = new HashMap<>();
-        Statement stmt = auth.createStatement();
+        SQLInput sqlInput = new SQLInput("SELECT * FROM employees_salary");
+        sqlInput.SalaryInput(salary);
 
-        try (ResultSet rs = stmt.executeQuery("SELECT * FROM employees_salary")) {
+
+       /* try (ResultSet rs = stmt.executeQuery("SELECT * FROM employees_salary")) {
 
             while (rs.next()) {
                 salary.put(rs.getInt("employee_id"), rs.getDouble("salary"));
@@ -30,8 +25,12 @@ public class Main {
             System.err.println("Ошибка подключения к зарплатной таблице. Ошибка: " + e.getMessage());
         }
 
+        */
 
-        //Загружаю зарплатную таблицу-------------------------|
+
+        //Загружаю таблицу сотрудников-------------------------|
+        Connection auth = new Connection("postgres", "1");
+        Statement stmt = auth.createStatement();
         HashMap<Integer, String> employees = new HashMap<>();
         try (ResultSet rs = stmt.executeQuery("SELECT * FROM employees")) {
 
@@ -43,34 +42,17 @@ public class Main {
         } catch (SQLException e) {
             System.err.println("Ошибка подключения к таблице сотрудников. Ошибка: " + e.getMessage());
         }
+
         //Пробный вывод*
         System.out.println("Должности: " + employees);
         System.out.println("Зарплата:" + salary);
 
-        //Индексирую зарплату в цикле-----------------------|
-        for (int id = 1; id <= employees.size(); id++) {
-            if (salary.containsKey(id) && employees.containsKey(id)) {
-                String title = employees.get(id);
-                if ("Sales Representative".equalsIgnoreCase(title)) {
-                    Double value = salary.get(id);
-                    value = value + (value * 2 / 100);
-                    salary.replace(id, value);
-                } else if ("Vice President, Sales".equalsIgnoreCase(title)) {
-                    Double value = salary.get(id);
-                    value = value + (value * 10 / 100);
-                    salary.replace(id, value);
-                } else if ("Sales Manager".equalsIgnoreCase(title)) {
-                    Double value = salary.get(id);
-                    value = value + (value * 5 / 100);
-                    salary.replace(id, value);
-                } else if ("Inside Sales Coordinator".equalsIgnoreCase(title)) {
-                    Double value = salary.get(id);
-                    value = value + (value * 5 / 100);
-                    salary.replace(id, value);
-                }
-            }
-        }
-        System.out.println("Индексация:" + salary); //Проверка после индексации
+        String update = "UPDATE employees_salary SET salary = ? WHERE employee_id = ?";
+        SalaryOut tablesSalary = new SalaryOut(update, salary, employees);
+        tablesSalary.RequestToTable();
+
+
+
 
 
         /*
@@ -78,10 +60,9 @@ public class Main {
         постоянных увеличений заработной платы на время теста.
          */
 
-        String update = "UPDATE employees_salary SET salary = ? WHERE employee_id = ?";
-        PreparedStatement pstmt = auth.prepareStatement(update);
 
-        try {
+
+       /* try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Индексируем зарплату? \n YES/NO");
             String request = reader.readLine();
@@ -98,6 +79,8 @@ public class Main {
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
+
+        */
 
             //auth.prepareStatement("SELECT * FROM employees_salary");
 
