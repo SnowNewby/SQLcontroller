@@ -9,15 +9,15 @@ public class Main {
 
 
         //Метод SQLInput загружает и помещает в соответствующие мапы значения.
-        String request = "SELECT * FROM employees_salary";
-        String request2 = "SELECT * FROM employees";
-
         HashMap<Integer, Double> salary = new HashMap<>();
         HashMap<Integer, String> employees = new HashMap<>();
 
-        SQLInput sql = new SQLInput(request);
-        sql.SalaryInput(salary);
-        sql.EmployeeInput(employees);
+        String getSalary = "SELECT * FROM employees_salary";
+        String getEmployees = "SELECT * FROM employees";
+
+        SQLInput sql = new SQLInput();
+        sql.SalaryInput(salary, getSalary);
+        sql.EmployeeTitleInput(employees, getEmployees);
 
 
         //Пробный вывод в консоль

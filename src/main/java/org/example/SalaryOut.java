@@ -20,10 +20,9 @@ public class SalaryOut {
 
     /**
      * HashMap employees
-     * indexation "salary" by "id_employees" in SQL
+     * indexation "salary" by "id_employees" and output in SQL
      */
     public String RequestToTable() {
-
         //Индексирую зарплату по должностям-----------------------|
         for (int id = 1; id <= employees.size(); id++) {
             if (salary.containsKey(id) && employees.containsKey(id)) {
@@ -69,6 +68,8 @@ public class SalaryOut {
                 reader.close();
                 pstmt.close();
             }
+            reader.close();
+            pstmt.close();
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
