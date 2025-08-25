@@ -23,6 +23,8 @@ public class Main {
         //6. При вводе в idea PreparedStatement меня иногда создавался автоматически
         // конструктор этого метода, что это?
 
+        //7. Что такое функциональное программирование.
+
         //Метод SQLInput загружает и помещает в соответствующие мапы значения.
         HashMap<Integer, Double> salary = new HashMap<>();
         HashMap<Integer, String> employees = new HashMap<>();
