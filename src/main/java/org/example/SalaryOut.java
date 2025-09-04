@@ -49,7 +49,7 @@ public class SalaryOut {
         //Проверка после индексации
         System.out.println("Индексация:" + salary);
 
-        Connection auth = new Connection("postgres", "1");
+        ConnectionFactory auth = new ConnectionFactory("postgres", "1");
         PreparedStatement pstmt = auth.prepareStatement(request);
 
         try {

@@ -1,8 +1,5 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,17 +7,17 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 public class SQLInput {
-    Connection auth = new Connection("postgres", "1");
+    ConnectionFactory auth = new ConnectionFactory("postgres", "1");
 
-//Реализация запросов к PostgresSQL через Statement
     /**
      * command "SELECT * FROM employees_salary"
-     * @param salary get table "employee_id" and "salary"
      * @return HashMap data from SQL table salary
+     *
      */
-    public HashMap SalaryInput(HashMap<Integer, Double> salary, String request) {
-        try (Statement stmt = auth.createStatement();
-             ResultSet rs = stmt.executeQuery(request)) {
+    public HashMap<Integer, Double> getEmployeesSalary(String request) {
+        HashMap<Integer, Double> salary = new HashMap<>();
+
+        try (Statement stmt = auth.createStatement(); ResultSet rs = stmt.executeQuery(request)) {
             while (rs.next()) {
                 salary.put(rs.getInt("employee_id"), rs.getDouble("salary"));
             }
@@ -30,8 +27,6 @@ public class SQLInput {
             System.err.println("Ошибка подключения к зарплатной таблице. Ошибка: " + e.getMessage());
         }
         return salary;
-
-
     }
 
     /**
@@ -75,3 +70,4 @@ public class SQLInput {
         return employeesName;
     }
     }
+
