@@ -29,7 +29,9 @@ public class NorthwindDaoImpl implements NorthwindDao {
         try(PreparedStatement stmt = connection.prepareStatement(GET_EMPLOYEE_REQUEST);
             ResultSet rs = stmt.executeQuery()){
                 while (rs.next()) {
-                    employees.add(new Employee(rs.getInt("employee_id"), rs.getString("title")));
+                    employees.add(new Employee(
+                            rs.getInt("employee_id"),
+                            rs.getString("title")));
                 }
         } catch (SQLException e) {
             throw new RuntimeException(e);

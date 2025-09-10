@@ -7,7 +7,7 @@ package org.example.model.dao;
 import java.math.BigDecimal;
 
 public class Employee {
-    private static  Integer id;
+    private static Integer id;
     private static String value;
     private static BigDecimal salary;
 

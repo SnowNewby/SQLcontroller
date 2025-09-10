@@ -8,7 +8,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
         //Метод SQLInput загружает и помещает в соответствующие мапы значения.
         HashMap<Integer, Double> salary = null;
         HashMap<Integer, String> employees = new HashMap<>();
