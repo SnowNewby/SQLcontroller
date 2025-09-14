@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static org.example.model.dao.Employee.*;
+import java.util.Map;
 
 
 /// Если реализовывать через ArrayList, то надо значения добавлять в массив
@@ -13,50 +12,79 @@ import static org.example.model.dao.Employee.*;
 /// Либо добавить значения в Хешмап и не менять логику
 
 
-public interface NorthwindDao {
+public abstract class NorthwindDao {
 
     /**
-     * получить сотрудников
+     * Получить сотрудников
      */
-    List<Employee> getEmployees();
-
-
-    List<Employee> getSalary();
+    public abstract List<EmployeeEntity> getEmployees();
 
     /**
-     * индексировать зарплату
+     * Получить зарплату
      */
-    int[] increaseSalary(List<Employee> employees);
+    public abstract List<SalariesEntity> getSalary();
 
-    {
-        HashMap<Integer, String> employeesMap = new HashMap<>();
-        HashMap<Integer, BigDecimal> salaryMap = new HashMap<>();
+    /**
+     * Индексировать зарплату
+     */
+    public int[] increaseSalary(List<EmployeeEntity> employees, List<SalariesEntity> salaries) {
 
-        employeesMap.put(getId(), getValue());
-        salaryMap.put(getId(), Employee.getSalary());
+        int updateNumberValue = 0;
+
+        employees = new ArrayList<>(getEmployees());
+        salaries = new ArrayList<>(getSalary());
+
+        // Создаю Мап для зарплаты
+        Map<Integer, BigDecimal> salaryMap = new HashMap<>();
+        for (SalariesEntity salary : salaries) {
+            salaryMap.put(salary.getId(), salary.getValue());
+
+        }
+        // Создаю Мап для сотрудников
+        Map<Integer, String> employeesMap = new HashMap<>();
+        for (EmployeeEntity employee : employees) {
+            employeesMap.put(employee.getId(), employee.getTitle());
+        }
 
         for (int id = 1; id <= employeesMap.size(); id++) {
-            if (salaryMap.containsKey(id) && employeesMap.containsKey(id)) {
-                String title = employeesMap.get(id);
+
+            String title = employeesMap.get(id);
+
+            if (employeesMap.containsKey(0) || salaryMap.containsKey(0)) {
+                System.err.println("Айди сотрудника не найден!");
+                break;
+
+            } else if (employeesMap.containsValue(null)) {
+                System.err.println("Графа должность - пустая!");
+                break;
+
+            } else if (employeesMap.containsKey(id) == salaryMap.containsKey(id)) {
                 if ("Sales Representative".equalsIgnoreCase(title)) {
                     BigDecimal value = salaryMap.get(id);
-                    value = value + (value * 2 / 100);
-                    salaryMap.replace(id, value);
+                    value.multiply(BigDecimal.valueOf(2));
+                    salaryMap.put(id, value);
+                    updateNumberValue++;
                 } else if ("Vice President, Sales".equalsIgnoreCase(title)) {
-                    Double value = salaryMap.get(id);
-                    value = value.add;
-                    salaryMap.replace(id, value);
+                    BigDecimal value = salaryMap.get(id);
+                    value.multiply(BigDecimal.valueOf(10));
+                    salaryMap.put(id, value);
+                    updateNumberValue++;
                 } else if ("Sales Manager".equalsIgnoreCase(title)) {
                     BigDecimal value = salaryMap.get(id);
-                    value = value + ((value * 5) / 100);
-                    salaryMap.replace(id, value);
+                    value.multiply(BigDecimal.valueOf(5));
+                    salaryMap.put(id, value);
+                    updateNumberValue++;
                 } else if ("Inside Sales Coordinator".equalsIgnoreCase(title)) {
-                    Double value = salaryMap.get(id);
-                    value = value + (value * 5 / 100);
-                    salaryMap.replace(id, value);
+                    BigDecimal value = salaryMap.get(id);
+                    value.multiply(BigDecimal.valueOf(5));
+                    salaryMap.put(id, value);
+                    updateNumberValue++;
                 }
             }
         }
+        System.out.println(employeesMap);
+        System.out.println(salaryMap);
+
+        return new int[] {updateNumberValue};
     }
 }
-

@@ -1,0 +1,16 @@
+//---v.01---//    -23.08.2025
+Added in gradle PostgresSQL driver.
+Added general logic code.
+
+//---v.02---//    -25.08.2025
+Refactoring code.
+Changing the project structure is
+more consistent with the principles of OOP.
+Deleted logic methods SQLInput and SalaryOut.
+Added class NorthwindDao and implementation methods NorthwindImpl.
+
+//--v.03---//     -13.09.2025
+-Added SalaryEntity Object class.
+-Added folder "resources", contacting Data Base query, properties and ChangeLog.
+-Small changes in class NorthwindDao. Added SalaryEntity in getSalary.
+-Added logic in increaseSalary.

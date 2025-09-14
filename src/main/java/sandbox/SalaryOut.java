@@ -1,4 +1,6 @@
-package org.example;
+package sandbox;
+
+import org.example.ConnectionFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
