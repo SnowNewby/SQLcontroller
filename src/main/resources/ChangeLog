@@ -14,3 +14,8 @@ Added class NorthwindDao and implementation methods NorthwindImpl.
 -Added folder "resources", contacting Data Base query, properties and ChangeLog.
 -Small changes in class NorthwindDao. Added SalaryEntity in getSalary.
 -Added logic in increaseSalary.
+
+                    -14.09.2025
+-Add methods pacifiers to implement the further logic of changing the employee's last name or first name,
+NorthwindDaoImplNames_update class and method updateNames in NorthwindDao
+-Added additional class fields in EmployeesEntity.

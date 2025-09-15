@@ -4,6 +4,12 @@ package org.example.model.dao;
 public class EmployeeEntity {
     private Integer id;
     private String title;
+    private String first_name;
+    private String surname;
+
+    /// todo добавить значения Фамилия, Имя, .....
+    ///
+    /// todo добавить геттеры и сеттеры, логику.
 
     public EmployeeEntity() {
 

@@ -1,6 +1,8 @@
 package org.example.model.dao;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class SalariesEntity {
     private Integer id;
@@ -26,11 +28,11 @@ public class SalariesEntity {
         return value;
     }
 
-    public void setValue(Integer id, BigDecimal value) {
-        if (id == getId()) {
+    public void setValue(BigDecimal value) {
             this.value = value;
-        }
+
     }
+
 
     @Override
     public String toString() {

@@ -1,90 +1,81 @@
 package org.example.model.dao;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-
-/// Если реализовывать через ArrayList, то надо значения добавлять в массив
-///
-/// Либо добавить значения в Хешмап и не менять логику
-
 
 public abstract class NorthwindDao {
 
     /**
-     * Получить сотрудников
+     * Метод получает список сотрудников
      */
     public abstract List<EmployeeEntity> getEmployees();
 
     /**
-     * Получить зарплату
+     * Метод получает список зарплаты сотрудников
      */
     public abstract List<SalariesEntity> getSalary();
 
     /**
-     * Индексировать зарплату
+     * Метод индексирует зарплату
+     *
+     * @return int[updateNumberValue] количество успешных итераций
      */
     public int[] increaseSalary(List<EmployeeEntity> employees, List<SalariesEntity> salaries) {
 
-        int updateNumberValue = 0;
+        int updateNumberValue = 0; // Счётчик успешных итераций
 
-        employees = new ArrayList<>(getEmployees());
-        salaries = new ArrayList<>(getSalary());
+        for (int i = 0; i <= employees.size() - 1; i++) {
+            String title = employees.get(i).getTitle();
+            Integer idEmployee = employees.get(1).getId();
+            Integer idSalary = salaries.get(1).getId();
 
-        // Создаю Мап для зарплаты
-        Map<Integer, BigDecimal> salaryMap = new HashMap<>();
-        for (SalariesEntity salary : salaries) {
-            salaryMap.put(salary.getId(), salary.getValue());
-
-        }
-        // Создаю Мап для сотрудников
-        Map<Integer, String> employeesMap = new HashMap<>();
-        for (EmployeeEntity employee : employees) {
-            employeesMap.put(employee.getId(), employee.getTitle());
-        }
-
-        for (int id = 1; id <= employeesMap.size(); id++) {
-
-            String title = employeesMap.get(id);
-
-            if (employeesMap.containsKey(0) || salaryMap.containsKey(0)) {
+            // Проверка на нулевые значения и спецсимволы в строке ID.
+            if (idEmployee <= 0 || idSalary <= 0 || idSalary.equals('!')) { /// todo прописать спецсимволы в проверку!
                 System.err.println("Айди сотрудника не найден!");
                 break;
 
-            } else if (employeesMap.containsValue(null)) {
+                // Проверка на то что строка должность не пустая.
+            } else if (title == null) {
                 System.err.println("Графа должность - пустая!");
                 break;
 
-            } else if (employeesMap.containsKey(id) == salaryMap.containsKey(id)) {
+                // Цикл обработки заработной платы.
+            } else if (idEmployee == idSalary) {
                 if ("Sales Representative".equalsIgnoreCase(title)) {
-                    BigDecimal value = salaryMap.get(id);
-                    value.multiply(BigDecimal.valueOf(2));
-                    salaryMap.put(id, value);
+                    BigDecimal salary = salaries.get(i).getValue();
+                    salary = salary.multiply(BigDecimal.valueOf(2));
+                    salaries.set(idSalary - 1, new SalariesEntity(idSalary, salary));
                     updateNumberValue++;
                 } else if ("Vice President, Sales".equalsIgnoreCase(title)) {
-                    BigDecimal value = salaryMap.get(id);
-                    value.multiply(BigDecimal.valueOf(10));
-                    salaryMap.put(id, value);
+                    BigDecimal salary = salaries.get(i).getValue();
+                    salary = salary.multiply(BigDecimal.valueOf(2));
+                    salaries.set(idSalary - 1, new SalariesEntity(idSalary, salary));
                     updateNumberValue++;
                 } else if ("Sales Manager".equalsIgnoreCase(title)) {
-                    BigDecimal value = salaryMap.get(id);
-                    value.multiply(BigDecimal.valueOf(5));
-                    salaryMap.put(id, value);
+                    BigDecimal salary = salaries.get(i).getValue();
+                    salary = salary.multiply(BigDecimal.valueOf(2));
+                    salaries.set(idSalary - 1, new SalariesEntity(idSalary, salary));
                     updateNumberValue++;
                 } else if ("Inside Sales Coordinator".equalsIgnoreCase(title)) {
-                    BigDecimal value = salaryMap.get(id);
-                    value.multiply(BigDecimal.valueOf(5));
-                    salaryMap.put(id, value);
+                    BigDecimal salary = salaries.get(i).getValue();
+                    salary = salary.multiply(BigDecimal.valueOf(2));
+                    salaries.set(idSalary - 1, new SalariesEntity(idSalary, salary));
                     updateNumberValue++;
                 }
             }
         }
-        System.out.println(employeesMap);
-        System.out.println(salaryMap);
+        // Возвращаю массив успешных итераций.
+        return new int[]{updateNumberValue};
+    }
 
-        return new int[] {updateNumberValue};
+
+    /**
+     * Метод меняет фамилию или имя введенное в консоль
+     */
+    public void updateNames(List<EmployeeEntity> employees) {
+        /// todo реализовать логику смены значения в ArrayList.
     }
 }
+
+
+
