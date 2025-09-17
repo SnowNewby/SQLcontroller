@@ -1,4 +1,6 @@
-package org.example;
+package sandbox;
+
+import org.example.ConnectionFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
