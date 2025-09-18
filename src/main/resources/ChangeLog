@@ -19,3 +19,6 @@ Added class NorthwindDao and implementation methods NorthwindImpl.
 -Add methods pacifiers to implement the further logic of changing the employee's last name or first name,
 NorthwindDaoImplNames_update class and method updateNames in NorthwindDao
 -Added additional class fields in EmployeesEntity.
+
+                    -18.09.2025
+-Add function update last name employee's in NorthwindDaoNames_update
