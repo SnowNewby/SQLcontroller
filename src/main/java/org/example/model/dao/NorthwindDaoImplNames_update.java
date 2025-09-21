@@ -60,7 +60,6 @@ public class NorthwindDaoImplNames_update extends NorthwindDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        /// todo реализация выгрузки в базу измененного значения Фамилии или Имя
     }
 
 }
