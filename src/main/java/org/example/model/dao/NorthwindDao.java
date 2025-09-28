@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Deprecated(since ="Требуется перейти на два отдельных итерфейса")
 public abstract class NorthwindDao {
 
     /**

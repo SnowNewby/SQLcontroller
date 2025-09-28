@@ -1,7 +1,6 @@
 package org.example.model.dao;
 
 import org.example.ConnectionFactory;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,9 +23,11 @@ public class NorthwindDaoImplNames_update extends NorthwindDao {
 
     @Override
     public List<EmployeeEntity> getEmployees() {
+
         List<EmployeeEntity> employees = new ArrayList<>();
+
         try (PreparedStatement stmt = CONNECTION.prepareStatement(GET_EMPLOYEE_REQUEST);
-             ResultSet rs = stmt.executeQuery()) {
+            ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 employees.add(new EmployeeEntity(rs.getInt("employee_id"),
                                                  rs.getString("last_name"),
@@ -51,7 +52,6 @@ public class NorthwindDaoImplNames_update extends NorthwindDao {
 
         try (PreparedStatement stmt = CONNECTION.prepareStatement(UPDATE_EMPLOYEE_REQUEST)) {
             for (int i = 0; i <= employees.size() - 1; i++) {
-                /// todo найти почему метод не выгружает значение в БД
                 stmt.setString(1, employees.get(i).getLast_name());
                 stmt.setInt(2, employees.get(i).getId());
                 stmt.addBatch();
