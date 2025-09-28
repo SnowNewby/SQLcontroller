@@ -1,39 +1,37 @@
 package org.example.model.dao;
 
 import org.example.ConnectionFactory;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+public class EmployeeDaoImpl implements EmployeeDao {
 
-
-@Deprecated(since = "используем новые классы @NameService")
-public class NorthwindDaoImplNames_update extends NorthwindDao {
 
     private static final String GET_EMPLOYEE_REQUEST = "SELECT * FROM employees";
     private static final String UPDATE_EMPLOYEE_REQUEST = "UPDATE employees SET last_name = ? WHERE employee_id = ?";
 
-    private final ConnectionFactory CONNECTION;
+    private final ConnectionFactory connectionFactory;
 
-    public NorthwindDaoImplNames_update() {
-        this.CONNECTION = new ConnectionFactory("postgres", "1");
 
+    public EmployeeDaoImpl() {
+        this.connectionFactory = new ConnectionFactory("postgres", "1");
     }
 
     @Override
     public List<EmployeeEntity> getEmployees() {
-
         List<EmployeeEntity> employees = new ArrayList<>();
 
-        try (PreparedStatement stmt = CONNECTION.prepareStatement(GET_EMPLOYEE_REQUEST);
-            ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement stmt = connectionFactory.prepareStatement(GET_EMPLOYEE_REQUEST);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 employees.add(new EmployeeEntity(rs.getInt("employee_id"),
-                                                 rs.getString("last_name"),
-                                                 rs.getString("first_name"),
-                                                 rs.getString("title_of_courtesy")));
+                        rs.getString("last_name"),
+                        rs.getString("first_name"),
+                        rs.getString("title_of_courtesy")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -42,16 +40,13 @@ public class NorthwindDaoImplNames_update extends NorthwindDao {
     }
 
     @Override
-    public List<SalariesEntity> getSalary() {
-        return null;
-    }
-
-    @Override
     public void updateNames(List<EmployeeEntity> employees) {
 
-        super.updateNames(employees);
+        if (employees.isEmpty()) {
+            throw new RuntimeException("employee list is empty");
+        }
 
-        try (PreparedStatement stmt = CONNECTION.prepareStatement(UPDATE_EMPLOYEE_REQUEST)) {
+        try (PreparedStatement stmt = connectionFactory.prepareStatement(UPDATE_EMPLOYEE_REQUEST)) {
             for (int i = 0; i <= employees.size() - 1; i++) {
                 stmt.setString(1, employees.get(i).getLast_name());
                 stmt.setInt(2, employees.get(i).getId());
@@ -62,6 +57,4 @@ public class NorthwindDaoImplNames_update extends NorthwindDao {
             throw new RuntimeException(e);
         }
     }
-
 }
-

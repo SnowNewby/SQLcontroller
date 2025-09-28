@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Deprecated(since ="Требуется перейти на два отдельных итерфейса")
+@Deprecated(since ="От этого класса отказываемся. Требуется перейти на два отдельных итерфейса")
 public abstract class NorthwindDao {
 
     /**
@@ -24,7 +24,7 @@ public abstract class NorthwindDao {
      *
      * @return int[updateNumberValue] количество успешных итераций
      */
-    public int[] increaseSalary(List<EmployeeEntity> employees, List<SalariesEntity> salaries) {
+    public List<SalariesEntity> increaseSalary(List<EmployeeEntity> employees, List<SalariesEntity> salaries)  {
 
         int updateNumberValue = 0; // Счётчик успешных итераций
 
@@ -73,7 +73,7 @@ public abstract class NorthwindDao {
             }
         }
         // Возвращаю массив успешных итераций.
-        return new int[]{updateNumberValue};
+        return salaries;
     }
 
 

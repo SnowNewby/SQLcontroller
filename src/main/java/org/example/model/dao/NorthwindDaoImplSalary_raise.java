@@ -6,6 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Deprecated(since = "используем новые классы @SalarySevice")
 public class NorthwindDaoImplSalary_raise extends NorthwindDao {
 
     private static final String GET_EMPLOYEE_REQUEST = "SELECT * FROM employees";
@@ -50,8 +52,9 @@ public class NorthwindDaoImplSalary_raise extends NorthwindDao {
         return salary;
     }
 
+    //TODO remove this method
     @Override
-    public int[] increaseSalary(List<EmployeeEntity> employees, List<SalariesEntity> salaries) {
+    public List<SalariesEntity> increaseSalary(List<EmployeeEntity> employees, List<SalariesEntity> salaries) {
 
         super.increaseSalary(employees, salaries);
 
@@ -61,10 +64,10 @@ public class NorthwindDaoImplSalary_raise extends NorthwindDao {
                 stmt.setInt(2, salaries.get(i).getId());
                 stmt.addBatch();
             }
-            stmt.executeBatch();
+           return  salaries;
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new int[1];
     }
 }
