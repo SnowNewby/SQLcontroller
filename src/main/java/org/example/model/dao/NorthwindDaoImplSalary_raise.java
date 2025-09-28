@@ -26,7 +26,7 @@ public class NorthwindDaoImplSalary_raise extends NorthwindDao {
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 employees.add(new EmployeeEntity(rs.getInt("employee_id"),
-                        rs.getString("title")));
+                                                 rs.getString("title")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -42,7 +42,7 @@ public class NorthwindDaoImplSalary_raise extends NorthwindDao {
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 salary.add(new SalariesEntity(rs.getInt("employee_id"),
-                        rs.getBigDecimal("salary")));
+                                              rs.getBigDecimal("salary")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

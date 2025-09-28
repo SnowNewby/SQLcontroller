@@ -12,7 +12,8 @@ import java.util.List;
 
 public class NorthwindDaoImplNames_update extends NorthwindDao {
 
-    private final String GIVEN_NAMES = "";
+    private static final String GET_EMPLOYEE_REQUEST = "SELECT * FROM employees";
+    private static final String UPDATE_EMPLOYEE_REQUEST = "UPDATE employees SET last_name = ? WHERE employee_id = ?";
 
     private final ConnectionFactory CONNECTION;
 
@@ -24,13 +25,13 @@ public class NorthwindDaoImplNames_update extends NorthwindDao {
     @Override
     public List<EmployeeEntity> getEmployees() {
         List<EmployeeEntity> employees = new ArrayList<>();
-        try (PreparedStatement stmt = CONNECTION.prepareStatement(GIVEN_NAMES);
+        try (PreparedStatement stmt = CONNECTION.prepareStatement(GET_EMPLOYEE_REQUEST);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-
-                /// todo добавить поля для реализации
                 employees.add(new EmployeeEntity(rs.getInt("employee_id"),
-                        rs.getString("title")));
+                                                 rs.getString("last_name"),
+                                                 rs.getString("first_name"),
+                                                 rs.getString("title_of_courtesy")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -45,8 +46,20 @@ public class NorthwindDaoImplNames_update extends NorthwindDao {
 
     @Override
     public void updateNames(List<EmployeeEntity> employees) {
+
         super.updateNames(employees);
-        /// todo реализация выгрузки в базу измененного значения Фамилии или Имя
+
+        try (PreparedStatement stmt = CONNECTION.prepareStatement(UPDATE_EMPLOYEE_REQUEST)) {
+            for (int i = 0; i <= employees.size() - 1; i++) {
+                /// todo найти почему метод не выгружает значение в БД
+                stmt.setString(1, employees.get(i).getLast_name());
+                stmt.setInt(2, employees.get(i).getId());
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
