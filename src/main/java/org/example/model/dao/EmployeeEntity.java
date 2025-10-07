@@ -1,8 +1,8 @@
 package org.example.model.dao;
 
 
-
 /// todo хочу реализовать как полноценную сущность через Hibernate
+
 
 public class EmployeeEntity {
     private Integer id;
@@ -18,8 +18,12 @@ public class EmployeeEntity {
 
 
     // Constructor
-    public EmployeeEntity() {
-
+    public EmployeeEntity(int id, String last_name, String first_name, String title_of_courtesy, String title) {
+        this.id = id;
+        this.last_name = last_name;
+        this.first_name = first_name;
+        this.title_of_courtesy = title_of_courtesy;
+        this.title = title;
     }
 
     public EmployeeEntity(Integer id, String title) {
@@ -27,11 +31,10 @@ public class EmployeeEntity {
         this.title = title;
     }
 
-    public EmployeeEntity(Integer id, String last_name, String first_name, String title_of_courtesy) {
+    public EmployeeEntity(Integer id, String last_name, String first_name) {
         this.id = id;
         this.last_name = last_name;
         this.first_name = first_name;
-        this.title_of_courtesy = title_of_courtesy;
     }
 
 
@@ -106,6 +109,8 @@ public class EmployeeEntity {
                 ", address='" + address + '\'' +
                 ", postal_code='" + postal_code + '\'' +
                 ", country='" + country + '\'' +
-                '}';
+                '}' + "\n";
     }
+
+
 }

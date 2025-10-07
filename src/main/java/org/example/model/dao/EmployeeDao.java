@@ -11,7 +11,9 @@ public interface EmployeeDao {
 
     /**
      * Метод меняет фамилию или имя введенное в консоль
+     *
+     * @return
      */
-     void updateNames(List<EmployeeEntity> employees);
+     int[] updateNames(List<EmployeeEntity> employees);
 
     }

@@ -1,8 +1,7 @@
 package org.example.model.dao;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
+
 
 public class SalariesEntity {
     private Integer id;

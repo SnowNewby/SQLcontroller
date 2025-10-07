@@ -10,9 +10,9 @@ public interface SalaryDao {
     List<SalariesEntity> getSalary();
 
     /**
-     * Метод индексирует зарплату (не обязательно увеличивает, он может и уменьшать - индексировать на 0.8)
+     * Метод индексирует зарплату (необязательно увеличивает, он может и уменьшать - индексировать на 0.8)
      *
      * @return int[updateNumberValue] количество успешных итераций
      */
-     int[] update(List<SalariesEntity> salaries);
+     int[] updateSalary(List<SalariesEntity> salaries);
 }

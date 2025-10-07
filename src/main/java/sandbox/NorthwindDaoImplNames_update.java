@@ -1,6 +1,9 @@
-package org.example.model.dao;
+package sandbox;
 
 import org.example.ConnectionFactory;
+import org.example.model.dao.EmployeeEntity;
+import org.example.model.dao.SalariesEntity;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,8 +35,7 @@ public class NorthwindDaoImplNames_update extends NorthwindDao {
             while (rs.next()) {
                 employees.add(new EmployeeEntity(rs.getInt("employee_id"),
                                                  rs.getString("last_name"),
-                                                 rs.getString("first_name"),
-                                                 rs.getString("title_of_courtesy")));
+                                                 rs.getString("first_name")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -12,7 +12,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 
     private static final String GET_EMPLOYEE_REQUEST = "SELECT * FROM employees";
-    private static final String UPDATE_EMPLOYEE_REQUEST = "UPDATE employees SET last_name = ? WHERE employee_id = ?";
+    private static final String UPDATE_EMPLOYEE_REQUEST = "UPDATE employees SET last_name = ?, first_name = ? WHERE employee_id = ?";
 
     private final ConnectionFactory connectionFactory;
 
@@ -31,7 +31,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 employees.add(new EmployeeEntity(rs.getInt("employee_id"),
                         rs.getString("last_name"),
                         rs.getString("first_name"),
-                        rs.getString("title_of_courtesy")));
+                        rs.getString("title_of_courtesy"),
+                        rs.getString("title")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -40,7 +41,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public void updateNames(List<EmployeeEntity> employees) {
+    public int[] updateNames(List<EmployeeEntity> employees) {
 
         if (employees.isEmpty()) {
             throw new RuntimeException("employee list is empty");
@@ -49,12 +50,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
         try (PreparedStatement stmt = connectionFactory.prepareStatement(UPDATE_EMPLOYEE_REQUEST)) {
             for (int i = 0; i <= employees.size() - 1; i++) {
                 stmt.setString(1, employees.get(i).getLast_name());
-                stmt.setInt(2, employees.get(i).getId());
+                stmt.setString(2, employees.get(i).getFirst_name());
+                stmt.setInt(3, employees.get(i).getId());
                 stmt.addBatch();
             }
-            stmt.executeBatch();
+            return stmt.executeBatch();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
 }

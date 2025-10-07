@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+
+@Deprecated (since = "Самая первая логика")
 public class SalaryOut {
     String request;
     HashMap<Integer, Double> salary;

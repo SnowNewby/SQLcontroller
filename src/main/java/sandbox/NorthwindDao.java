@@ -1,4 +1,7 @@
-package org.example.model.dao;
+package sandbox;
+
+import org.example.model.dao.EmployeeEntity;
+import org.example.model.dao.SalariesEntity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +9,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Deprecated(since ="От этого класса отказываемся. Требуется перейти на два отдельных итерфейса")
+@Deprecated(since ="От этого класса отказываемся. Требуется перейти на два отдельных интерфейса")
 public abstract class NorthwindDao {
 
     /**
@@ -128,7 +131,7 @@ public abstract class NorthwindDao {
                                 System.out.println("Введите новую фамилию.");
                                 String newLastName = reader.readLine();
                                 employees.set(idEmployee - 1, new EmployeeEntity(idEmployee, newLastName,
-                                        answerFirstName, answerTitleCourtesy));
+                                        answerFirstName));
                                 System.out.println(employees);
                             }
                         } else if (answerTitleCourtesy.equalsIgnoreCase("Mr")) {

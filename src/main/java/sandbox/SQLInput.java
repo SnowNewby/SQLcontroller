@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
+@Deprecated (since = "Самая первая логика")
 public class SQLInput {
     ConnectionFactory auth = new ConnectionFactory("postgres", "1");
 

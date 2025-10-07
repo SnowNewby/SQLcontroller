@@ -1,6 +1,8 @@
-package org.example.model.dao;
+package sandbox;
 
 import org.example.ConnectionFactory;
+import org.example.model.dao.EmployeeEntity;
+import org.example.model.dao.SalariesEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
